@@ -1,0 +1,43 @@
+const client = new Discord.Client();
+const hook = new Discord.WebhookClient(webHook.id, webHook.token);
+
+client.on('ready', () => {
+  console.log('Starting!');
+  client.user.setActivity(config.activity);
+});
+
+
+
+client.on('message', async (msg) => {
+  if (msg.author.bot) { return; }
+  sendImage();
+});
+
+let webHook = {
+  token: "token-webhook",
+  id: "id-webhook"
+};
+
+let img = [
+  'https://i.imgur.com/ezC66kZ.png',
+  'https://i.imgur.com/wSTFkRM.png'
+];
+
+function sendImage() {
+  let embeds = [];
+  embeds.push(new Discord.RichEmbed()
+          .setTitle('First Messages')
+          .setImage(img[0])
+          .setTimestamp()
+          .setFooter('Pulled time:'));
+  embeds.push(new Discord.RichEmbed()
+          .setTitle('First Messages')
+          .setImage(img[1])
+          .setTimestamp()
+          .setFooter('Pulled time:'));
+  hook.send({embeds: embeds});
+}
+
+client.login(config.token)
+  .then(() => console.log("We're in!"))
+  .catch((err) => console.log(err));
